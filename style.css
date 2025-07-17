@@ -7,7 +7,7 @@
         }
 
         body {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Lato', monospace;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -45,17 +45,17 @@
 
         /* Background Images */
         body.dark-theme {
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB2aWV3Qm94PSIwIDAgMTkyMCAxMDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZGVmcz4KICA8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM0MDQwNDAiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzIwMjAyMCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkaWVudCkiLz4KPHN2ZyB4PSI5NTAiIHk9IjQwMCIgd2lkdGg9IjUwMCIgaGVpZ2h0PSI0MDAiIHZpZXdCb3g9IjAgMCA1MDAgNDAwIj4KICA8cGF0aCBkPSJNNDUwIDM1MEM0NTAgMzUwIDQwMCAzMjAgMzUwIDMwMEM0NTAgMzIwIDUwMCAzMDAgNDUwIDM1MFoiIGZpbGw9IiMzMDMwMzAiLz4KICA8cGF0aCBkPSJNNDUwIDM1MEM0NTAgMzUwIDQwMCAzMjAgMzUwIDMwMEM0NTAgMzIwIDUwMCAzMDAgNDUwIDM1MFoiIGZpbGw9IiMzMDMwMzAiIHRyYW5zZm9ybT0icm90YXRlKDQ1IDQwMCAzMjUpIi8+CjwvbW91bnRhaW4+CjxjaXJjbGUgY3g9IjE0MDAiIGN5PSI2NDAiIHI9IjQwIiBmaWxsPSIjNjY2NjY2IiBvcGFjaXR5PSIwLjUiLz4KPC9zdmc+');
+		background-image: url('Forest-Dark.png')
         }
 
         body.light-theme {
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB2aWV3Qm94PSIwIDAgMTkyMCAxMDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZGVmcz4KICA8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNkOGI0ZmUiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2FhN2NmZSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkaWVudCkiLz4KPHN2ZyB4PSI5NTAiIHk9IjQwMCIgd2lkdGg9IjUwMCIgaGVpZ2h0PSI0MDAiIHZpZXdCb3g9IjAgMCA1MDAgNDAwIj4KICA8cGF0aCBkPSJNNDUwIDM1MEM0NTAgMzUwIDQwMCAzMjAgMzUwIDMwMEM0NTAgMzIwIDUwMCAzMDAgNDUwIDM1MFoiIGZpbGw9IiM5MDYwYzAiLz4KICA8cGF0aCBkPSJNNDUwIDM1MEM0NTAgMzUwIDQwMCAzMjAgMzUwIDMwMEM0NTAgMzIwIDUwMCAzMDAgNDUwIDM1MFoiIGZpbGw9IiM5MDYwYzAiIHRyYW5zZm9ybT0icm90YXRlKDQ1IDQwMCAzMjUpIi8+CjwvbW91bnRhaW4+CjxjaXJjbGUgY3g9IjE0MDAiIGN5PSI2NDAiIHI9IjQwIiBmaWxsPSIjZjBkNGZmIiBvcGFjaXR5PSIwLjciLz4KPC9zdmc+');
-        }
+        	background-image: url('Forest-Light.png')	
+	}
 
         /* ===== TERMINAL CONTAINER ===== */
         .terminal-container {
-            width: 800px;
-            height: 600px;
+            width: 900px;
+            height: 900px;
             background: var(--bg-secondary);
             border: 2px solid var(--border-color);
             border-radius: 12px;
@@ -70,8 +70,8 @@
 
         .terminal-header {
             background: var(--bg-primary);
-            padding: 12px 20px;
-            border-bottom: 2px solid var(--border-color);
+            padding: 12px 21px;
+            border-bottom: 3px solid var(--border-color);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -80,11 +80,11 @@
 
         .terminal-title {
             color: var(--text-primary);
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 18px;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 9px;
         }
 
         .terminal-dots {
@@ -122,7 +122,7 @@
         /* ===== TERMINAL BODY ===== */
         .terminal-body {
             flex: 1;
-            padding: 20px;
+            padding: 21px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -132,11 +132,11 @@
         .search-container {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 21px;
             background: rgba(0, 0, 0, 0.1);
-            border: 1px solid var(--border-color);
+            border: 3px solid var(--border-color);
             border-radius: 6px;
-            padding: 8px 12px;
+            padding: 9px 12px;
             position: relative;
             transition: all 0.3s ease;
         }
@@ -148,9 +148,9 @@
 
         .prompt {
             color: var(--prompt-color);
-            margin-right: 8px;
-            font-weight: 700;
-            font-size: 14px;
+            margin-right: 9px;
+            font-weight: 600;
+            font-size: 18px;
         }
 
         .search-input {
@@ -158,7 +158,7 @@
             border: none;
             color: var(--text-primary);
             font-family: inherit;
-            font-size: 14px;
+            font-size: 18px;
             outline: none;
             flex: 1;
             caret-color: var(--cursor-color);
@@ -170,7 +170,7 @@
         }
 
         .cursor {
-            width: 2px;
+            width: 3px;
             height: 18px;
             background: var(--cursor-color);
             animation: blink 1s infinite;
