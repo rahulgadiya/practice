@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Portfolio</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme" data-theme="dark">
+		<!-- Main Terminal Window -->
+		<div class="terminal-container">
+			<!-- Terminal Header (top bar) --> 
+			<div class="terminal-header">
+			<!-- Terminal window title-->
+				<div class="terminal-title">
+					<div class="terminal-dots"><div class="dot close"></div><div class="dot minimize"></div><div class="dot maximize"></div></div>
+					terminal@portfolio:~$
+				</div>
+				<!-- Theme Toggle Button -->
+				<button class="theme-toggle" onclick="toggleTheme()">🌙 Dark</button>
+			</div>
+			<!-- Terminal Content Area -->
+			<div class="terminal-body">
+				<!-- Command Input Section -->
+				<div class="search-container">
+					<span class="prompt">$</span>
+					<!-- Text input where users types commands -->
+					<input type="text" 
+						class="search-input"
+						placeholder="Type Command or search ..."
+						autocomplete="on"
+						id="searchInput">
+
+					<!-- Blinking Cursor effect --->
+					<div class="cursor"></div>
+
+					<!-- Dropdown for command suggestions -->
+					<div class="suggestions" id="suggestions"></div>
+				</div>
+				<!-- OUTPUT DISPLAY AREA -->
+				<!-- This is where command results appear -->
+				<div class="output-container" id="outputContainer">
+				
+					<!-- Initial welcome message -->
+					<div class="output-line">
+						<!-- Show the command -->
+						<div class="command-line"> $ ./wlcome.sh</div>
+
+						<!-- Welcome content section -->
+						<div class="section">
+							<h2>Welcome to My Terminal Portofolio</h2>
+							<p> Navigate through my portfolio using the search box above. Try commands like:</p>
+
+							<div class="nav-links">
+								<a href="#" class="nav-link" onclick="executeCommand('about')">About</a>
+								<a href="#" class="nav-link" onclick="executeCommand('projects')">Projects</a>
+								<a href="#" class="nav-link" onclick="executeCommand('contact')">Contact</a>
+								<a href="#" class="nav-link" onclick="executeCommand('resume')">Resume</a>
+								<a href="#" class="nav-link" onclick="executeCommand('blog')">Blog</a>
+								<a href="#" class="nav-link" onclick="executeCommand('help')">Help</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+
+<script src="script.js"></script>
+</body>
+</html>
