@@ -201,7 +201,7 @@ function setupLoginForm() {
     if (signUpButton) {
         signUpButton.addEventListener('click', (e) => {
             e.preventDefault();
-            window.location.href = '/signup.html';
+            window.location.href = 'signup.html';
         });
     }
 }
