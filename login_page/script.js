@@ -201,7 +201,7 @@ function setupLoginForm() {
     if (signUpButton) {
         signUpButton.addEventListener('click', (e) => {
             e.preventDefault();
-            window.location.href = '/registration.html';
+            window.location.href = '/signup.html';
         });
     }
 }
@@ -287,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check which page we're on and setup accordingly
     if (window.location.pathname.includes('login.html') || window.location.pathname === '/') {
         setupLoginForm();
-    } else if (window.location.pathname.includes('registration.html')) {
+    } else if (window.location.pathname.includes('signup.html')) {
         setupRegistrationForm();
     }
 });
