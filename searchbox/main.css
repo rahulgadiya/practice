@@ -1,0 +1,112 @@
+:root {
+  --bg-color-dark: rgba(18, 18, 18, 0.6);
+  --bg-gradient-dark: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+  --bg-image-dark: url("dark.png");
+
+  --bg-color-light: rgba(245, 245, 245, 0.6);
+  --bg-gradient-light: linear-gradient(145deg, #ffffff, #e0e0e0);
+  --bg-image-light: url("light.png");
+
+  --text-color-dark: #f0f0f0;
+  --text-color-light: #121212;
+
+  --glass-blur: blur(20px);
+  --border-radius: 20px;
+  --transition: 0.3s ease-in-out;
+}
+
+[data-theme="dark"] {
+  --bg-color: var(--bg-color-dark);
+  --bg-gradient: var(--bg-gradient-dark);
+  --bg-image: var(--bg-image-dark);
+  --text-color: var(--text-color-dark);
+}
+
+[data-theme="light"] {
+  --bg-color: var(--bg-color-light);
+  --bg-gradient: var(--bg-gradient-light);
+  --bg-image: var(--bg-image-light);
+  --text-color: var(--text-color-light);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background: var(--bg-gradient), var(--bg-image);
+  background-blend-mode: overlay;
+  background-size: cover;
+  background-position: center;
+  color: var(--text-color);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  transition: background var(--transition), color var(--transition);
+}
+
+button#theme-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: 1px solid currentColor;
+  padding: 0.5rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+}
+
+button#theme-toggle::before {
+  content: "\2600"; /* Sun icon */
+}
+
+[data-theme="dark"] button#theme-toggle::before {
+  content: "\1F319"; /* Moon icon */
+}
+
+.glass {
+  background: var(--bg-color);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: var(--border-radius);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 1.5rem;
+  transition: all var(--transition);
+}
+
+#search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 480px;
+}
+
+#search input[type="search"] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 50px;
+  outline: none;
+  color: var(--text-color);
+  background-color: rgba(0, 0, 0, 0.07);
+  backdrop-filter: var(--glass-blur);
+  transition: background-color var(--transition);
+}
+
+[data-theme="dark"] #search input[type="search"] {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+
