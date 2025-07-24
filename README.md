@@ -15,5 +15,5 @@ The current modules included in this repository are:
 3. Shopping/E-Commerce
     A feature-rich online shopping interface, including product listings, cart management, and checkout functionality.
 
-   4.  Search Box
+4.  Search Box
      An efficient and responsive search component designed to enhance content discoverability within the site.
