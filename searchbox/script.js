@@ -1,4 +1,4 @@
-// Theme Toggle: Works with <html data-theme> and #theme-toggle button
+
 document.addEventListener("DOMContentLoaded", function () {
   const root = document.documentElement;
   const themeToggle = document.getElementById("theme-toggle");
@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Define a class to handle search logic
   class SearchHandler {
     constructor() {
       this.searchEngines = {
@@ -21,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ":p": { name: "Perplexity", url: "https://www.perplexity.ai/search?q=", color: "#20a4f0" },
       };
 
-      this.defaultEngine = this.searchEngines[":g"]; // Set Google as default
+      this.defaultEngine = this.searchEngines[":g"]; 
       this.currentEngine = this.defaultEngine;
 
       this.searchBox = document.querySelector("#search input[type='search']");
@@ -50,20 +49,17 @@ document.addEventListener("DOMContentLoaded", function () {
       let selectedEngine = this.defaultEngine;
       let actualQuery = query;
 
-      // Check for search engine macros
       for (const macro in this.searchEngines) {
         if (query.startsWith(macro + " ")) {
           selectedEngine = this.searchEngines[macro];
-          actualQuery = query.substring(macro.length + 1).trim(); // Remove macro and leading space
+          actualQuery = query.substring(macro.length + 1).trim(); 
           break;
         }
       }
 
-      // If after checking macros, the actualQuery is empty, use the original query with default engine
       if (!actualQuery && selectedEngine === this.defaultEngine) {
           actualQuery = query;
       } else if (!actualQuery && selectedEngine !== this.defaultEngine) {
-          // If a macro was used but no query followed, do not search (or you could default to a specific behavior)
           console.warn(`No query provided after macro '${macro}'.`);
           return;
       }
@@ -72,10 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const searchURL = selectedEngine.url + encodeURIComponent(actualQuery);
       window.open(searchURL, "_blank");
 
-      // Optional: Add history, info bar, etc. here.
     }
   }
-
-  // Initialize the SearchHandler
   new SearchHandler();
 });
