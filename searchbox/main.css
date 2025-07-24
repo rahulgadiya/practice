@@ -1,11 +1,11 @@
 :root {
   --bg-color-dark: rgba(18, 18, 18, 0.6);
   --bg-gradient-dark: linear-gradient(145deg, #1a1a1a, #2a2a2a);
-  --bg-image-dark: url("dark.png");
+  --bg-image-dark: url("Dark.png");
 
   --bg-color-light: rgba(245, 245, 245, 0.6);
   --bg-gradient-light: linear-gradient(145deg, #ffffff, #e0e0e0);
-  --bg-image-light: url("light.png");
+  --bg-image-light: url("Light.png");
 
   --text-color-dark: #f0f0f0;
   --text-color-light: #121212;

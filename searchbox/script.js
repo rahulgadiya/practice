@@ -9,33 +9,73 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Search Handling
-  const searchBox = document.querySelector("#search input[type='search']");
-  if (searchBox) {
-    searchBox.addEventListener("keydown", function (e) {
-      // Submit search on Enter
-      if (e.key === "Enter") {
-        e.preventDefault();
-        handleSearchSubmit();
+  // Define a class to handle search logic
+  class SearchHandler {
+    constructor() {
+      this.searchEngines = {
+        ":g": { name: "Google", url: "https://www.google.com/search?q=", color: "#4285f4" },
+        ":b": { name: "Bing", url: "https://www.bing.com/search?q=", color: "#0078d4" },
+        ":e": { name: "Ecosia", url: "https://www.ecosia.org/search?q=", color: "#00a85a" },
+        ":d": { name: "DuckDuckGo", url: "https://duckduckgo.com/?q=", color: "#de5833" },
+        ":br": { name: "Brave Search", url: "https://search.brave.com/search?q=", color: "#fb542b" },
+        ":p": { name: "Perplexity", url: "https://www.perplexity.ai/search?q=", color: "#20a4f0" },
+      };
+
+      this.defaultEngine = this.searchEngines[":g"]; // Set Google as default
+      this.currentEngine = this.defaultEngine;
+
+      this.searchBox = document.querySelector("#search input[type='search']");
+      this.init();
+    }
+
+    init() {
+      if (this.searchBox) {
+        this.searchBox.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            this.handleSearchSubmit();
+          }
+          if (e.key === "Escape") {
+            this.searchBox.value = "";
+          }
+        });
       }
-      // Optional: Clear if Escape
-      if (e.key === "Escape") {
-        searchBox.value = "";
+    }
+
+    handleSearchSubmit() {
+      if (!this.searchBox) return;
+      let query = this.searchBox.value.trim();
+      if (!query) return;
+
+      let selectedEngine = this.defaultEngine;
+      let actualQuery = query;
+
+      // Check for search engine macros
+      for (const macro in this.searchEngines) {
+        if (query.startsWith(macro + " ")) {
+          selectedEngine = this.searchEngines[macro];
+          actualQuery = query.substring(macro.length + 1).trim(); // Remove macro and leading space
+          break;
+        }
       }
-    });
+
+      // If after checking macros, the actualQuery is empty, use the original query with default engine
+      if (!actualQuery && selectedEngine === this.defaultEngine) {
+          actualQuery = query;
+      } else if (!actualQuery && selectedEngine !== this.defaultEngine) {
+          // If a macro was used but no query followed, do not search (or you could default to a specific behavior)
+          console.warn(`No query provided after macro '${macro}'.`);
+          return;
+      }
+
+
+      const searchURL = selectedEngine.url + encodeURIComponent(actualQuery);
+      window.open(searchURL, "_blank");
+
+      // Optional: Add history, info bar, etc. here.
+    }
   }
 
-  // Handles search submission (customize as needed)
-  function handleSearchSubmit() {
-    if (!searchBox) return;
-    const query = searchBox.value.trim();
-    if (!query) return;
-
-    // Basic version: Google search in new tab
-    // (Expand this for multi-engine support later)
-    const searchURL = "https://www.google.com/search?q=" + encodeURIComponent(query);
-    window.open(searchURL, "_blank");
-    // Optional: Add history, info bar, etc. here.
-  }
+  // Initialize the SearchHandler
+  new SearchHandler();
 });
-
