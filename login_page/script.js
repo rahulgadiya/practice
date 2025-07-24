@@ -1,29 +1,17 @@
-// Simplified main.js for beginners
-// This handles both login and registration forms
 
-// ==========================================
-// CONFIGURATION
-// ==========================================
 const API_BASE_URL = 'http://127.0.0.1:8000/api/auth';
-
-// ==========================================
-// UTILITY FUNCTIONS
-// ==========================================
-
-// Show success or error messages to user
 function showMessage(message, type = 'error') {
-    // Remove any existing message first
+
     const existingMessage = document.querySelector('.message');
     if (existingMessage) {
         existingMessage.remove();
     }
 
-    // Create new message element
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${type}`;
     messageDiv.textContent = message;
     
-    // Style the message
+
     messageDiv.style.cssText = `
         position: fixed;
         top: 20px;
@@ -40,26 +28,23 @@ function showMessage(message, type = 'error') {
     
     document.body.appendChild(messageDiv);
     
-    // Remove message after 5 seconds
     setTimeout(() => {
         messageDiv.remove();
     }, 5000);
 }
 
-// Check if email format is valid
 function isValidEmail(email) {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
 }
 
-// Check if password meets requirements
 function isValidPassword(password) {
-    // At least 8 characters, 1 uppercase, 1 lowercase, 1 number
+  
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
     return passwordPattern.test(password);
 }
 
-// Show loading state on buttons
+
 function setButtonLoading(button, isLoading) {
     if (isLoading) {
         button.disabled = true;
@@ -73,11 +58,6 @@ function setButtonLoading(button, isLoading) {
     }
 }
 
-// ==========================================
-// API COMMUNICATION
-// ==========================================
-
-// Make API calls to backend
 async function callAPI(endpoint, method = 'GET', data = null) {
     const options = {
         method: method,
@@ -86,13 +66,11 @@ async function callAPI(endpoint, method = 'GET', data = null) {
         },
     };
 
-    // Add authentication token if available
     const token = localStorage.getItem('access_token');
     if (token) {
         options.headers['Authorization'] = `Bearer ${token}`;
     }
 
-    // Add data to request if provided
     if (data) {
         options.body = JSON.stringify(data);
     }
@@ -101,17 +79,16 @@ async function callAPI(endpoint, method = 'GET', data = null) {
         const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
         const result = await response.json();
         
-        // Handle errors from server
         if (!response.ok) {
             let errorMessage = 'Something went wrong';
             
-            // Handle different error formats
+    
             if (result.non_field_errors) {
                 errorMessage = result.non_field_errors[0];
             } else if (result.message) {
                 errorMessage = result.message;
             } else {
-                // Collect all field errors
+        
                 const errors = [];
                 for (const field in result) {
                     if (Array.isArray(result[field])) {
@@ -128,7 +105,7 @@ async function callAPI(endpoint, method = 'GET', data = null) {
         
         return result;
     } catch (error) {
-        // Handle network errors
+     
         if (error.message === 'Failed to fetch') {
             throw new Error('Cannot connect to server. Please check your internet connection.');
         }
@@ -136,12 +113,7 @@ async function callAPI(endpoint, method = 'GET', data = null) {
     }
 }
 
-// ==========================================
-// LOGIN FUNCTIONALITY
-// ==========================================
-
 function setupLoginForm() {
-    // Get form elements
     const form = document.querySelector('form');
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
@@ -152,14 +124,12 @@ function setupLoginForm() {
     const signInButton = buttons[0];
     const signUpButton = buttons[1];
 
-    // Handle login form submission
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const email = usernameInput.value.trim();
         const password = passwordInput.value;
 
-        // Basic validation
         if (!email || !password) {
             showMessage('Please fill in all fields');
             return;
@@ -179,13 +149,12 @@ function setupLoginForm() {
             });
 
             showMessage('Login successful!', 'success');
-            
-            // Save user data
+   
             localStorage.setItem('access_token', result.tokens.access);
             localStorage.setItem('refresh_token', result.tokens.refresh);
             localStorage.setItem('user_data', JSON.stringify(result.user));
 
-            // Redirect to dashboard
+        
             setTimeout(() => {
                 window.location.href = '/dashboard.html';
             }, 1500);
@@ -197,7 +166,7 @@ function setupLoginForm() {
         }
     });
 
-    // Handle sign up button click
+
     if (signUpButton) {
         signUpButton.addEventListener('click', (e) => {
             e.preventDefault();
@@ -206,12 +175,9 @@ function setupLoginForm() {
     }
 }
 
-// ==========================================
-// REGISTRATION FUNCTIONALITY
-// ==========================================
 
 function setupRegistrationForm() {
-    // Get form elements
+
     const form = document.querySelector('form');
     const firstNameInput = document.getElementById('firstname');
     const lastNameInput = document.getElementById('lastname');
@@ -222,7 +188,7 @@ function setupRegistrationForm() {
     
     if (!form || !firstNameInput || !lastNameInput || !usernameInput || !passwordInput || !confirmPasswordInput) return;
 
-    // Handle registration form submission
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
@@ -264,8 +230,7 @@ function setupRegistrationForm() {
             });
 
             showMessage('Registration successful! Please login.', 'success');
-            
-            // Redirect to login page
+       
             setTimeout(() => {
                 window.location.href = '/login.html';
             }, 2000);
@@ -278,13 +243,9 @@ function setupRegistrationForm() {
     });
 }
 
-// ==========================================
-// INITIALIZATION
-// ==========================================
 
-// Run when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    // Check which page we're on and setup accordingly
+
     if (window.location.pathname.includes('login.html') || window.location.pathname === '/') {
         setupLoginForm();
     } else if (window.location.pathname.includes('signup.html')) {
@@ -292,7 +253,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Add CSS animation for messages
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideIn {
