@@ -1,55 +1,45 @@
 :root {
-  --bg-color-dark: rgba(18, 18, 18, 0.6);
-  --bg-gradient-dark: linear-gradient(145deg, #1a1a1a, #2a2a2a);
-  --bg-image-dark: url("Dark.png");
-
-  --bg-color-light: rgba(245, 245, 245, 0.6);
-  --bg-gradient-light: linear-gradient(145deg, #ffffff, #e0e0e0);
-  --bg-image-light: url("Light.png");
-
-  --text-color-dark: #f0f0f0;
-  --text-color-light: #121212;
-
+  /* Base properties */
   --glass-blur: blur(20px);
   --border-radius: 20px;
-  --transition: 0.3s ease-in-out;
+  --transition: 0.3s ease-in-out; 
+  --bg-color-dark: rgba(18, 18, 18, 0.6); 
+  --bg-image-dark: url("Summer-Dark.png"); 
+  --text-color-dark: #f0f0f0;
+  --bg-color-light: rgba(245, 245, 245, 0.6); 
+  --bg-image-light: url("Summer-Light.png"); 
+  --text-color-light: #121212;
 }
-
 [data-theme="dark"] {
-  --bg-color: var(--bg-color-dark);
-  --bg-gradient: var(--bg-gradient-dark);
-  --bg-image: var(--bg-image-dark);
-  --text-color: var(--text-color-dark);
+  --current-bg-color: var(--bg-color-dark);
+  --current-bg-image: var(--bg-image-dark);
+  --current-text-color: var(--text-color-dark);
 }
-
 [data-theme="light"] {
-  --bg-color: var(--bg-color-light);
-  --bg-gradient: var(--bg-gradient-light);
-  --bg-image: var(--bg-image-light);
-  --text-color: var(--text-color-light);
+  --current-bg-color: var(--bg-color-light);
+  --current-bg-image: var(--bg-image-light);
+  --current-text-color: var(--text-color-light);
 }
-
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-
 body {
   font-family: system-ui, sans-serif;
-  background: var(--bg-gradient), var(--bg-image);
-  background-blend-mode: overlay;
-  background-size: cover;
-  background-position: center;
-  color: var(--text-color);
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  transition: background var(--transition), color var(--transition);
+  background-color: var(--current-bg-color); 
+  background-image: var(--current-bg-image); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; 
+  color: var(--current-text-color);
+  transition: background-color var(--transition), background-image var(--transition), color var(--transition);
 }
-
 button#theme-toggle {
   position: absolute;
   top: 1rem;
@@ -64,18 +54,17 @@ button#theme-toggle {
   display: grid;
   place-items: center;
   font-size: 1.2rem;
+  color: var(--current-text-color); 
+  transition: border-color var(--transition), color var(--transition);
 }
-
 button#theme-toggle::before {
   content: "\2600"; /* Sun icon */
 }
-
 [data-theme="dark"] button#theme-toggle::before {
   content: "\1F319"; /* Moon icon */
 }
-
 .glass {
-  background: var(--bg-color);
+  background: var(--current-bg-color); 
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border-radius: var(--border-radius);
@@ -83,7 +72,6 @@ button#theme-toggle::before {
   padding: 1.5rem;
   transition: all var(--transition);
 }
-
 #search {
   display: flex;
   flex-direction: column;
@@ -91,7 +79,6 @@ button#theme-toggle::before {
   width: 100%;
   max-width: 480px;
 }
-
 #search input[type="search"] {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -99,14 +86,11 @@ button#theme-toggle::before {
   border: none;
   border-radius: 50px;
   outline: none;
-  color: var(--text-color);
-  background-color: rgba(0, 0, 0, 0.07);
+  color: var(--current-text-color);
+  background-color: rgba(0, 0, 0, 0.07); 
   backdrop-filter: var(--glass-blur);
   transition: background-color var(--transition);
 }
-
 [data-theme="dark"] #search input[type="search"] {
   background-color: rgba(255, 255, 255, 0.1);
 }
-
-
