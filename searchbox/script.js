@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
   const root = document.documentElement;
   const themeToggle = document.getElementById("theme-toggle");
@@ -64,10 +63,11 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
       }
 
-
       const searchURL = selectedEngine.url + encodeURIComponent(actualQuery);
       window.open(searchURL, "_blank");
 
+      // Clear the search box after successful search
+      this.searchBox.value = "";
     }
   }
   new SearchHandler();
