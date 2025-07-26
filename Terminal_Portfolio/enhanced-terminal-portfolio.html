@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rahul Gadiya - Terminal Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Dark theme (default) */
+            --bg-primary: #0a0a0a;
+            --bg-secondary: rgba(15, 15, 15, 0.95);
+            --bg-glass: rgba(20, 20, 20, 0.8);
+            --text-primary: #00ff88;
+            --text-secondary: #8cc8ff;
+            --text-muted: #666;
+            --accent: #ff6b6b;
+            --accent-secondary: #4ecdc4;
+            --border: rgba(255, 255, 255, 0.1);
+            --shadow: rgba(0, 255, 136, 0.2);
+            --cursor-color: #00ff88;
+            --error-color: #ff4757;
+            --success-color: #2ed573;
+            --warning-color: #ffa502;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: rgba(255, 255, 255, 0.95);
+            --bg-glass: rgba(255, 255, 255, 0.9);
+            --text-primary: #2c3e50;
+            --text-secondary: #3498db;
+            --text-muted: #95a5a6;
+            --accent: #e74c3c;
+            --accent-secondary: #1abc9c;
+            --border: rgba(0, 0, 0, 0.1);
+            --shadow: rgba(52, 152, 219, 0.2);
+            --cursor-color: #2c3e50;
+            --error-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+        }
+
+        [data-theme="cyberpunk"] {
+            --bg-primary: #0f0f23;
+            --bg-secondary: rgba(15, 15, 35, 0.95);
+            --bg-glass: rgba(20, 20, 40, 0.8);
+            --text-primary: #ff00ff;
+            --text-secondary: #00ffff;
+            --text-muted: #666;
+            --accent: #ffff00;
+            --accent-secondary: #ff0080;
+            --border: rgba(255, 0, 255, 0.3);
+            --shadow: rgba(255, 0, 255, 0.4);
+            --cursor-color: #ff00ff;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, var(--accent) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, var(--accent-secondary) 0%, transparent 50%);
+            opacity: 0.1;
+            z-index: -1;
+            animation: gradientShift 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes gradientShift {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.1;
+        }
+
+        .terminal-container {
+            width: min(900px, 95vw);
+            height: min(700px, 90vh);
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 100px var(--shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: terminalGlow 2s ease-in-out infinite alternate;
+            position: relative;
+        }
+
+        @keyframes terminalGlow {
+            0% { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 50px var(--shadow); }
+            100% { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 80px var(--shadow); }
+        }
+
+        .terminal-header {
+            background: var(--bg-secondary);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .terminal-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dot:hover {
+            transform: scale(1.2);
+            filter: brightness(1.2);
+        }
+
+        .dot.close { background: linear-gradient(135deg, #ff6b6b, #ff5252); }
+        .dot.minimize { background: linear-gradient(135deg, #ffa726, #ff9800); }
+        .dot.maximize { background: linear-gradient(135deg, #66bb6a, #4caf50); }
+
+        .theme-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .theme-toggle:hover::before {
+            left: 100%;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .terminal-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-container:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--shadow);
+            transform: translateY(-2px);
+        }
+
+        .prompt {
+            color: var(--accent);
+            margin-right: 8px;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .cursor {
+            width: 2px;
+            height: 20px;
+            background: var(--cursor-color);
+            animation: blink 1s infinite;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .output-container {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .output-line {
+            margin-bottom: 20px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .command-line {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .command-line::before {
+            content: '▶';
+            color: var(--accent);
+            font-size: 12px;
+        }
+
+        .command-output {
+            padding-left: 20px;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .section h2 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 20px;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+            border-radius: 2px;
+        }
+
+        .nav-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .nav-link {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .nav-link:hover::before {
+            left: 0;
+        }
+
+        .nav-link:hover {
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border-color: var(--accent);
+        }
+
+        .project-title {
+            color: var(--accent);
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .project-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 10px;
+        }
+
+        .status.completed {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .status.in-progress {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .tech-tag {
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid var(--border);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            background: rgba(255, 71, 87, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--error-color);
+            margin: 10px 0;
+        }
+
+        .success-message {
+            color: var(--success-color);
+            background: rgba(46, 213, 115, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--success-color);
+            margin: 10px 0;
+        }
+
+        .typing-effect {
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 2s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        .ascii-art {
+            color: var(--accent);
+            font-size: 10px;
+            line-height: 1.1;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        .loading {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+        }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .output-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .output-container::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+            border-radius: 4px;
+        }
+
+        .output-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent), var(--accent-secondary));
+            border-radius: 4px;
+        }
+
+        .output-container::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--accent-secondary), var(--accent));
+        }
+
+        @media (max-width: 768px) {
+            .terminal-container {
+                width: 95vw;
+                height: 90vh;
+                border-radius: 15px;
+            }
+
+            .terminal-header {
+                padding: 12px 16px;
+            }
+
+            .terminal-body {
+                padding: 16px;
+            }
+
+            .nav-links {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .ascii-art {
+                font-size: 8px;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <canvas class="matrix-bg" id="matrixCanvas"></canvas>
+    
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="terminal-title">
+                <div class="terminal-dots">
+                    <div class="dot close"></div>
+                    <div class="dot minimize"></div>
+                    <div class="dot maximize"></div>
+                </div>
+                <span>rahul@portfolio:~$</span>
+            </div>
+            <div class="theme-controls">
+                <button class="theme-toggle" onclick="cycleTheme()">🌙 Dark</button>
+            </div>
+        </div>
+        
+        <div class="terminal-body">
+            <div class="search-container">
+                <span class="prompt">❯</span>
+                <input type="text" class="search-input" placeholder="Type a command..." id="commandInput">
+                <div class="cursor"></div>
+            </div>
+            
+            <div class="output-container" id="output">
+                <div class="output-line fade-in">
+                    <div class="command-line">$ ./welcome.sh</div>
+                    <div class="command-output">
+                        <div class="section">
+                            <pre class="ascii-art">
+ ██████╗  █████╗ ██╗  ██╗██╗   ██╗██╗     
+ ██╔══██╗██╔══██╗██║  ██║██║   ██║██║     
+ ██████╔╝███████║███████║██║   ██║██║     
+ ██╔══██╗██╔══██║██╔══██║██║   ██║██║     
+ ██║  ██║██║  ██║██║  ██║╚██████╔╝███████╗
+ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝</pre>
+                            <h2>Welcome to My Enhanced Terminal Portfolio</h2>
+                            <p>Navigate through my portfolio using commands. Try typing:</p>
+                            <div class="nav-links">
+                                <a href="#" class="nav-link" onclick="executeCommand('about')">about</a>
+                                <a href="#" class="nav-link" onclick="executeCommand('projects')">projects</a>
+                                <a href="#" class="nav-link" onclick="executeCommand('skills')">skills</a>
+                                <a href="#" class="nav-link" onclick="executeCommand('contact')">contact</a>
+                                <a href="#" class="nav-link" onclick="executeCommand('help')">help</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Matrix background animation
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
+        const matrixArray = matrix.split("");
+        const fontSize = 10;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrixArray[Math.floor(Math.random() * matrixArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 35);
+
+        // Enhanced Terminal Portfolio Class
+        class EnhancedTerminalPortfolio {
+            constructor() {
+                this.input = document.getElementById('commandInput');
+                this.output = document.getElementById('output');
+                this.commandHistory = [];
+                this.historyIndex = -1;
+                this.currentTheme = 0;
+                this.themes = ['dark', 'light', 'cyberpunk'];
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.focusInput();
+            }
+
+            setupEventListeners() {
+                this.input.addEventListener('keydown', (e) => this.handleKeydown(e));
+                document.addEventListener('click', () => this.focusInput());
+            }
+
+            handleKeydown(e) {
+                switch (e.key) {
+                    case 'Enter':
+                        e.preventDefault();
+                        this.executeCommand(this.input.value.trim());
+                        break;
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        this.navigateHistory(-1);
+                        break;
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        this.navigateHistory(1);
+                        break;
+                    case 'l':
+                        if (e.ctrlKey) {
+                            e.preventDefault();
+                            this.clearScreen();
+                        }
+                        break;
+                }
+            }
+
+            executeCommand(cmd) {
+                if (!cmd) return;
+
+                this.addToHistory(cmd);
+                this.displayCommand(cmd);
+                this.processCommand(cmd.toLowerCase());
+                this.clearInput();
+            }
+
+            processCommand(cmd) {
+                const commands = {
+                    'help': () => this.showHelp(),
+                    'about': () => this.showAbout(),
+                    'projects': () => this.showProjects(),
+                    'skills': () => this.showSkills(),
+                    'contact': () => this.showContact(),
+                    'clear': () => this.clearScreen(),
+                    'theme': () => this.cycleTheme(),
+                    'whoami': () => this.showWhoami(),
+                    'ls': () => this.listFiles(),
+                    'sudo': () => this.showSudo()
+                };
+
+                if (commands[cmd]) {
+                    this.showLoading();
+                    setTimeout(() => {
+                        commands[cmd]();
+                    }, 500);
+                } else {
+                    this.showError(`Command '${cmd}' not found. Type 'help' for available commands.`);
+                }
+            }
+
+            showLoading() {
+                const loadingEl = document.createElement('div');
+                loadingEl.className = 'command-output loading';
+                loadingEl.innerHTML = '<div class="spinner"></div> Processing...';
+                this.output.appendChild(loadingEl);
+                this.scrollToBottom();
+
+                setTimeout(() => {
+                    this.output.removeChild(loadingEl);
+                }, 500);
+            }
+
+            displayCommand(cmd) {
+                const cmdEl = document.createElement('div');
+                cmdEl.className = 'output-line fade-in';
+                cmdEl.innerHTML = `<div class="command-line">$ ${cmd}</div>`;
+                this.output
